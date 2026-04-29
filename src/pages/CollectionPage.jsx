@@ -1,4 +1,10 @@
+import { useState } from 'react'
+
 function CollectionPage() {
+    const [goHome, setGoHome] = useState(false)
+
+    if (goHome) return <div onClick={() => window.location.reload()}>{window.location.reload()}</div>
+
     const fakeCollection = [
         { id: 1, animal: "여우상", percentage: 99, date: "2025-04-10" },
         { id: 2, animal: "고양이상", percentage: 78, date: "2025-04-12" },
@@ -22,6 +28,13 @@ function CollectionPage() {
             </nav>
 
             <main className="flex flex-col items-center py-10 px-4">
+                {/* 뒤로가기 버튼 */}
+                <button
+                    onClick={() => window.location.reload()}
+                    className="self-start ml-4 mb-4 text-orange-500 font-bold text-lg"
+                >
+                    ← 처음으로
+                </button>
 
                 {/* 제목 */}
                 <h1 className="text-3xl font-bold text-gray-800 mb-8">🐾 나의 도감</h1>
