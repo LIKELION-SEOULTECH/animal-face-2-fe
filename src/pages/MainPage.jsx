@@ -39,8 +39,23 @@ function MainPage() {
                 setIsLoading(false)
                 setShowResult(true)
             } else {
-                alert(data.message)
                 setIsLoading(false)
+                switch (data.code) {
+                    case 'FACE_NOT_DETECTED':
+                        alert('얼굴을 찾을 수 없어요! 얼굴이 잘 보이는 사진을 올려주세요.')
+                        break
+                    case 'INVALID_IMAGE_FILE':
+                        alert('JPG, PNG, WEBP 형식만 가능해요.')
+                        break
+                    case 'IMAGE_TOO_LARGE':
+                        alert('이미지 용량이 너무 커요! 더 작은 사진을 올려주세요.')
+                        break
+                    case 'AI_SERVER_ERROR':
+                        alert('AI 서버에 문제가 생겼어요. 잠시 후 다시 시도해주세요.')
+                        break
+                    default:
+                        alert(data.message)
+                }
             }
         } catch (error) {
             alert('서버 연결에 실패했습니다.')
