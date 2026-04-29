@@ -73,15 +73,15 @@ function MainPage() {
         <div className="min-h-screen bg-white">
             <nav className="flex justify-between items-center px-8 py-4">
                 <div className="text-orange-500 font-bold text-xl">🐾 동물상 테스트</div>
-                <button className="text-gray-500">동물상이란?</button>
+                <span className="text-gray-500 font-bold">2팀</span>
             </nav>
             <main className="flex flex-col items-center py-10">
                 <h1 className="text-4xl font-bold text-orange-500 mb-2">동물상 테스트</h1>
                 <p className="text-gray-500 mb-6">얼굴로 보는 인공지능 동물상 테스트</p>
                 <div className="flex gap-4 mb-8 text-sm text-gray-600">
-                    <span>🐾 무료</span>
-                    <span>🔒 개인정보 안전</span>
-                    <span>⚡ 빠른 분석</span>
+                    <span>🐶 강아지상</span>
+                    <span>🐱 고양이상</span>
+                    <span>🐰 토끼상</span>
                 </div>
                 <div className="flex gap-2 mb-8 bg-gray-100 rounded-full p-1">
                     <button

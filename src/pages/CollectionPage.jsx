@@ -32,7 +32,7 @@ function CollectionPage() {
         <div className="min-h-screen bg-white">
             <nav className="flex justify-between items-center px-8 py-4">
                 <div className="text-orange-500 font-bold text-xl">🐾 동물상 테스트</div>
-                <button className="text-gray-500">동물상이란?</button>
+                <span className="text-gray-500 font-bold">2팀</span>
             </nav>
             <main className="flex flex-col items-center py-10 px-4">
                 <h1 className="text-3xl font-bold text-gray-800 mb-8">🐾 나의 도감</h1>
