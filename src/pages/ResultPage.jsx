@@ -9,9 +9,7 @@ function ResultPage({ gender, resultData }) {
     const animalEmoji = {
         "고양이상": "🐱",
         "강아지상": "🐶",
-        "토끼상": "🐰",
-        "여우상": "🦊",
-        "곰상": "🐻",
+        "토끼상": "🐰"
     }
 
     // 실제 데이터 있으면 쓰고 없으면 가짜 데이터
