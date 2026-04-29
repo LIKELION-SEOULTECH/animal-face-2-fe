@@ -1,11 +1,15 @@
 import { useState, useRef } from 'react'
 import LoadingPage from './LoadingPage'
 import ResultPage from './ResultPage'
+import { getClientId } from '../utils/clientId'
 
 function MainPage() {
     const [gender, setGender] = useState('여자')
     const fileInputRef = useRef(null)
     const [previewImage, setPreviewImage] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+    const [showResult, setShowResult] = useState(false)
+    const [resultData, setResultData] = useState(null)
 
     const handleFileChange = (e) => {
         const file = e.target.files[0]
@@ -15,17 +19,36 @@ function MainPage() {
         }
     }
 
-    const [isLoading, setIsLoading] = useState(false)
-    const [showResult, setShowResult] = useState(false)
-
-    const handleAnalyze = () => {
+    const handleAnalyze = async () => {
         if (!previewImage) {
             alert('사진을 먼저 선택해주세요!')
             return
         }
         setIsLoading(true)
+        const formData = new FormData()
+        formData.append('image', fileInputRef.current.files[0])
+        formData.append('clientId', getClientId())
+        try {
+            const response = await fetch('http://localhost:8080/api/v1/analyses', {
+                method: 'POST',
+                body: formData
+            })
+            const data = await response.json()
+            if (data.success) {
+                setResultData(data.data)
+                setIsLoading(false)
+                setShowResult(true)
+            } else {
+                alert(data.message)
+                setIsLoading(false)
+            }
+        } catch (error) {
+            alert('서버 연결에 실패했습니다.')
+            setIsLoading(false)
+        }
     }
-    if (showResult) return <ResultPage gender={gender} />
+
+    if (showResult) return <ResultPage gender={gender} resultData={resultData} />
     if (isLoading) return <LoadingPage onFinish={() => {
         setIsLoading(false)
         setShowResult(true)
@@ -33,44 +56,28 @@ function MainPage() {
 
     return (
         <div className="min-h-screen bg-white">
-
-            {/* 상단 네비게이션 */}
             <nav className="flex justify-between items-center px-8 py-4">
                 <div className="text-orange-500 font-bold text-xl">🐾 동물상 테스트</div>
                 <button className="text-gray-500">동물상이란?</button>
             </nav>
-
-            {/* 메인 컨텐츠 */}
             <main className="flex flex-col items-center py-10">
-
-                {/* 제목 */}
                 <h1 className="text-4xl font-bold text-orange-500 mb-2">동물상 테스트</h1>
                 <p className="text-gray-500 mb-6">얼굴로 보는 인공지능 동물상 테스트</p>
-
-                {/* 뱃지 */}
                 <div className="flex gap-4 mb-8 text-sm text-gray-600">
                     <span>🐾 무료</span>
                     <span>🔒 개인정보 안전</span>
                     <span>⚡ 빠른 분석</span>
                 </div>
-
-                {/* 여자/남자 토글 */}
                 <div className="flex gap-2 mb-8 bg-gray-100 rounded-full p-1">
                     <button
                         onClick={() => setGender('여자')}
                         className={`px-6 py-2 rounded-full font-bold transition ${gender === '여자' ? 'bg-orange-500 text-white' : 'text-gray-500'}`}
-                    >
-                        여자
-                    </button>
+                    >여자</button>
                     <button
                         onClick={() => setGender('남자')}
                         className={`px-6 py-2 rounded-full font-bold transition ${gender === '남자' ? 'bg-orange-500 text-white' : 'text-gray-500'}`}
-                    >
-                        남자
-                    </button>
+                    >남자</button>
                 </div>
-
-                {/* 업로드 박스 */}
                 <div
                     onClick={() => fileInputRef.current.click()}
                     className="border-2 border-dashed border-orange-300 rounded-2xl w-80 h-60 flex flex-col items-center justify-center cursor-pointer hover:bg-orange-50"
@@ -85,15 +92,12 @@ function MainPage() {
                         </>
                     )}
                 </div>
-
-                {/* 분석 버튼 */}
                 <button
                     onClick={handleAnalyze}
                     className="mt-6 bg-orange-500 text-white font-bold px-16 py-4 rounded-full text-lg hover:bg-orange-600 transition"
                 >
                     분석 시작하기
                 </button>
-
                 <input
                     type="file"
                     ref={fileInputRef}
@@ -101,7 +105,6 @@ function MainPage() {
                     accept="image/*"
                     className="hidden"
                 />
-
             </main>
         </div>
     )
