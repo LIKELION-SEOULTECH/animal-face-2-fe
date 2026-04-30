@@ -5,7 +5,7 @@ function CollectionPage() {
     const [collection, setCollection] = useState([])
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/v1/collections?clientId=${getClientId()}`)
+        fetch(`http://3.35.119.62:8080/api/v1/collections?clientId=${getClientId()}`)
             .then(res => res.json())
             .then(data => {
                 if (data.success) {

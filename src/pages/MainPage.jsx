@@ -29,7 +29,7 @@ function MainPage() {
         formData.append('image', fileInputRef.current.files[0])
         formData.append('clientId', getClientId())
         try {
-            const response = await fetch('http://localhost:8080/api/v1/analyses', {
+            const response = await fetch('http://3.35.119.62:8080/api/v1/analyses', {
                 method: 'POST',
                 body: formData
             })
