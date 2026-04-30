@@ -95,6 +95,19 @@ function MainPage() {
                 </div>
                 <div
                     onClick={() => fileInputRef.current.click()}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                        e.preventDefault()
+                        const file = e.dataTransfer.files[0]
+                        if (file) {
+                            const url = URL.createObjectURL(file)
+                            setPreviewImage(url)
+                            // fileInputRef에도 파일 넣기
+                            const dt = new DataTransfer()
+                            dt.items.add(file)
+                            fileInputRef.current.files = dt.files
+                        }
+                    }}
                     className="border-2 border-dashed border-orange-300 rounded-2xl w-80 h-60 flex flex-col items-center justify-center cursor-pointer hover:bg-orange-50"
                 >
                     {previewImage ? (
@@ -107,6 +120,7 @@ function MainPage() {
                         </>
                     )}
                 </div>
+                
                 <button
                     onClick={handleAnalyze}
                     className="mt-6 bg-orange-500 text-white font-bold px-16 py-4 rounded-full text-lg hover:bg-orange-600 transition"
